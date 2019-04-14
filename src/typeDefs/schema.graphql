@@ -1,0 +1,39 @@
+type Query {
+  users: [User!]!
+  todos: [Todo!]!
+  projects: [Project!]!
+}
+
+type Mutation {
+  login(email: String!, password: String!): User!
+  creatUser(name: String!, email: String!, password: String!): User!
+  creatTodo(text: String!, completed: Boolean!): Todo!
+
+  updateUser(id: ID!, name: String!, email: String!, password: String!): User!
+  updateTodo(id: ID!, text: String!, completed: Boolean!): Todo!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  todos: [Todo]
+  #createdAt: String!
+  #updatedAt: string!
+}
+
+type Todo {
+  id: ID!
+  text: String!
+  completed: Boolean!
+
+  #createdAt: String!
+  # updatedAt: string!
+}
+
+type Project {
+  id: ID!
+  name: String!
+  todos: [Todo!]!
+}
