@@ -1,16 +1,95 @@
+# import UserOrderByInput, TodoOrderByInput, ProjectOrderByInput from '../generated/prisma.graphql'
 type Query {
-  users: [User!]!
-  todos: [Todo!]!
-  projects: [Project!]!
+  users(
+    query: String
+    first: Int
+    skip: Int
+    after: Int
+    orderBy: UserOrderByInput
+  ): [User!]!
+  todos(
+    query: String
+    first: Int
+    skip: Int
+    after: Int
+    orderBy: TodoOrderByInput
+  ): [Todo!]!
+  projects(
+    query: String
+    first: Int
+    skip: Int
+    after: Int
+    orderBy: ProjectOrderByInput
+  ): [Project!]!
+  me: User!
+  user(id: ID!): User!
+  project(id: ID!): Project!
+  todo(id: ID!): Todo!
+  myTodos(
+    query: String
+    first: Int
+    skip: Int
+    after: Int
+    orderBy: TodoOrderByInput
+  ): [Todo!]!
+  myProjects(
+    query: String
+    first: Int
+    skip: Int
+    after: Int
+    orderBy: ProjectOrderByInput
+  ): [Project!]!
 }
 
 type Mutation {
-  login(email: String!, password: String!): User!
-  creatUser(name: String!, email: String!, password: String!): User!
-  creatTodo(text: String!, completed: Boolean!): Todo!
+  login(data: LoginUserInput): User!
+  createUser(data: CreateUserInput!): User!
+  createProject(data: CreateProjectInput!): Project!
+  createTodo(data: CreateTodoInput!): Todo!
 
-  updateUser(id: ID!, name: String!, email: String!, password: String!): User!
-  updateTodo(id: ID!, text: String!, completed: Boolean!): Todo!
+  updateUser(id: ID!, data: UpdateUserInput!): User!
+  updateProject(id: ID!, data: UpdateProjectInput!): Project!
+  updateTodo(id: ID!, date: UpdateTodoInput): Todo!
+
+  deleteUser(id: ID!): User!
+  deleteProject(id: ID!): Project!
+  deleteTodo(id: ID!): Todo!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  name: String
+  username: String
+  email: String
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+input CreateProjectInput {
+  name: String! # @default(value: "general")
+  userId: ID!
+}
+input UpdateProjectInput {
+  name: String!
+}
+input CreateTodoInput {
+  text: String!
+  completed: Boolean!
+  #   completedAt: String!
+  # userId: ID!
+  projectId: ID!
+}
+
+input UpdateTodoInput {
+  text: String!
+  completed: Boolean!
 }
 
 type User {
@@ -18,22 +97,52 @@ type User {
   name: String!
   email: String!
   password: String!
+  projects: [Project]
   todos: [Todo]
-  #createdAt: String!
-  #updatedAt: string!
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Todo {
   id: ID!
   text: String!
   completed: Boolean!
+  project: Project!
+  author: User!
 
-  #createdAt: String!
-  # updatedAt: string!
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Project {
   id: ID!
   name: String!
+  author: User!
   todos: [Todo!]!
+}
+
+type Subscription {
+  todo(projectId: ID!): TodoSubPayload!
+  project: ProjectSubPayload!
+  user: userSubPayload!
+}
+
+type ProjectSubPayload {
+  mutation: MutationType!
+  data: Project!
+}
+
+type TodoSubPayload {
+  mutation: MutationType!
+  data: Todo!
+}
+type userSubPayload {
+  mutation: MutationType!
+  data: User!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
 }

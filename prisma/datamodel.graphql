@@ -1,0 +1,31 @@
+type User {
+  id: ID! @id
+  name: String!
+  email: String! @unique
+  password: String!
+  projects: [Project] @relation(name: "ProjectToUser", onDelete: CASCADE)
+  todos: [Todo!]! @relation(name: "TodoToUser", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Project {
+  id: ID! @id
+  name: String! @default(value: "general") @unique
+  author: User! @relation(name: "ProjectToUser", onDelete: CASCADE)
+  todos: [Todo!]! @relation(name: "TodoToProject", onDelete: SET_NULL)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Todo {
+  id: ID! @id
+  text: String!
+  description: String
+  completed: Boolean!
+  # completedAt: DateTime!
+  project: Project! @relation(name: "TodoToProject", onDelete: SET_NULL)
+  author: User! @relation(name: "TodoToUser", onDelete: SET_NULL)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
