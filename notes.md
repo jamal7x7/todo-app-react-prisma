@@ -8,3 +8,7 @@
 
 i- $ npm i @babel/node @babel/polyfill @babel/register apollo-boost bcryptjs cross-fetch env-cmd graphql graphql-cli graphql-yoga jsonwebtoken nodemon prisma-binding
 ii- $ npm i --save-dev @babel/cli @babel/core @babel/preset-env jest
+
+---
+
+> wors in terminal: ./node_modules/.bin/env-cmd -f ./config/dev.env nodemon src/index.js --ext js,graphql --exec babel-node

@@ -22,7 +22,7 @@ type Todo {
   id: ID! @id
   text: String!
   description: String
-  completed: Boolean!
+  completed: Boolean! @default(value: false)
   # completedAt: DateTime!
   project: Project! @relation(name: "TodoToProject", onDelete: SET_NULL)
   author: User! @relation(name: "TodoToUser", onDelete: SET_NULL)

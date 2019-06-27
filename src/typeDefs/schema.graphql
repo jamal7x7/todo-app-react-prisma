@@ -42,7 +42,7 @@ type Query {
 }
 
 type Mutation {
-  login(data: LoginUserInput): User!
+  login(data: LoginUserInput): AuthPayload!
   createUser(data: CreateUserInput!): User!
   createProject(data: CreateProjectInput!): Project!
   createTodo(data: CreateTodoInput!): Todo!
@@ -54,6 +54,11 @@ type Mutation {
   deleteUser(id: ID!): User!
   deleteProject(id: ID!): Project!
   deleteTodo(id: ID!): Todo!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
 }
 
 input LoginUserInput {
@@ -74,7 +79,7 @@ input CreateUserInput {
 }
 input CreateProjectInput {
   name: String! # @default(value: "general")
-  userId: ID!
+  # userId: ID!
 }
 input UpdateProjectInput {
   name: String!

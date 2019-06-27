@@ -1,5 +1,5 @@
 # source: http://localhost:4466/default/todo
-# timestamp: Sat Apr 20 2019 07:25:56 GMT+0000 (Azores Summer Time)
+# timestamp: Fri Jun 07 2019 06:22:28 GMT+0000 (Azores Summer Time)
 
 type AggregateProject {
   count: Int!
@@ -586,7 +586,7 @@ input TodoCreateInput {
   id: ID
   text: String!
   description: String
-  completed: Boolean!
+  completed: Boolean
   project: ProjectCreateOneWithoutTodosInput!
   author: UserCreateOneWithoutTodosInput!
 }
@@ -605,7 +605,7 @@ input TodoCreateWithoutAuthorInput {
   id: ID
   text: String!
   description: String
-  completed: Boolean!
+  completed: Boolean
   project: ProjectCreateOneWithoutTodosInput!
 }
 
@@ -613,7 +613,7 @@ input TodoCreateWithoutProjectInput {
   id: ID
   text: String!
   description: String
-  completed: Boolean!
+  completed: Boolean
   author: UserCreateOneWithoutTodosInput!
 }
 
